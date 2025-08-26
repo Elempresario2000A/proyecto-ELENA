@@ -1,0 +1,374 @@
+{% extends "inicio/encabezado.html" %}
+{% load static %}
+
+{% block titulo %}Inicio - RéntaFIN.mich{% endblock %}
+
+{% block contenido %}
+<style>
+    :root {
+        --color-primary: #2C3E50;
+        --color-secondary: #E67E22;
+        --color-accent: #2980B9;
+        --color-light: #F9F9F9;
+        --color-dark: #2C3E50;
+        --color-text: #555;
+        --shadow: 0 5px 15px rgba(0,0,0,0.08);
+        --transition: all 0.3s ease;
+    }
+
+    .hero-section {
+        background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://pixnio.com/free-images/2017/10/25/2017-10-25-15-00-39.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+        margin-bottom: 50px;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-btn {
+        background: var(--color-secondary);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-block;
+        box-shadow: var(--shadow);
+    }
+
+    .hero-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(230, 126, 34, 0.4);
+    }
+
+    .features-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 50px 20px;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        text-align: center;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: var(--color-secondary);
+        margin-bottom: 20px;
+    }
+
+    .feature-title {
+        font-size: 1.5rem;
+        color: var(--color-dark);
+        margin-bottom: 15px;
+    }
+
+    .feature-text {
+        color: var(--color-text);
+        line-height: 1.6;
+    }
+
+    .properties-showcase {
+        padding: 50px 20px;
+        background: var(--color-light);
+        border-radius: 20px;
+        margin: 50px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        color: var(--color-dark);
+        position: relative;
+    }
+
+    .section-title:after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--color-secondary);
+        margin: 15px auto;
+        border-radius: 2px;
+    }
+
+    .properties-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .property-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+
+    .property-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .property-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .property-details {
+        padding: 20px;
+    }
+
+    .property-title {
+        font-size: 1.3rem;
+        color: var(--color-dark);
+        margin-bottom: 10px;
+    }
+
+    .property-location {
+        color: #777;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .property-location i {
+        margin-right: 8px;
+        color: var(--color-secondary);
+    }
+
+    .property-features {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #777;
+    }
+
+    .property-price {
+        font-size: 1.4rem;
+        color: var(--color-secondary);
+        font-weight: 700;
+    }
+
+    .about-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+        padding: 50px 20px;
+    }
+
+    .about-image {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    .about-image img {
+        width: 100%;
+        height: auto;
+        transition: var(--transition);
+    }
+
+    .about-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .about-content h2 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        color: var(--color-dark);
+    }
+
+    .about-content p {
+        color: var(--color-text);
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .about-features {
+        margin-top: 20px;
+    }
+
+    .about-feature {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .about-feature i {
+        color: var(--color-secondary);
+        margin-right: 15px;
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .about-section {
+            grid-template-columns: 1fr;
+        }
+
+        .features-section, .properties-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Encuentra tu casa ideal para rentar</h1>
+        <p class="hero-subtitle">Descubre las mejores propiedades en RéntaFIN.mich - Tu hogar perfecto te está esperando</p>
+        <a href="#" class="hero-btn">Explorar Propiedades</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="container features-section">
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-home"></i>
+        </div>
+        <h3 class="feature-title">Amplia Variedad</h3>
+        <p class="feature-text">Desde estudios acogedores hasta casas familiares con amplios espacios, encuentra la propiedad que se adapte a tus necesidades.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-key"></i>
+        </div>
+        <h3 class="feature-title">Renta Segura</h3>
+        <p class="feature-text">Proceso de renta 100% seguro con contratos verificados y transacciones protegidas para tu tranquilidad.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">
+            <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h3 class="feature-title">Ubicaciones Privilegiadas</h3>
+        <p class="feature-text">Propiedades en las mejores zonas, cercanas a servicios, transporte y centros de entretenimiento.</p>
+    </div>
+</section>
+
+<!-- Properties Showcase -->
+<section class="container properties-showcase">
+    <h2 class="section-title">Propiedades Destacadas</h2>
+
+    <div class="properties-grid">
+        <div class="property-card">
+            <img src="https://th.bing.com/th/id/R.d8d786ea5f569f13ff506102e83c8b7f?rik=7Ed7cReDiwa8dA&riu=http%3a%2f%2f3.bp.blogspot.com%2f-I7lUGP1zISU%2fUM1DhZ79fII%2fAAAAAAAAAIY%2f5-6WHT7674s%2fs1600%2fcasas%2blujosas.jpg&ehk=V66U5JnYmbsWTO10iGpTdDVUxk6G36lxK%2fMOeEdOpvs%3d&risl=&pid=ImgRaw&r=0" alt="Casa moderna" class="property-image">
+            <div class="property-details">
+                <h3 class="property-title">Residencial Las Lomas</h3>
+                <div class="property-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Zona Norte</span>
+                </div>
+                <div class="property-features">
+                    <span><i class="fas fa-bed"></i> 3 Recámaras</span>
+                    <span><i class="fas fa-bath"></i> 2 Baños</span>
+                    <span><i class="fas fa-ruler-combined"></i> 120m²</span>
+                </div>
+                <div class="property-price">$15,000/mes</div>
+            </div>
+        </div>
+
+        <div class="property-card">
+            <img src="https://www.prefabricadas10.com/wp-content/uploads/2017/06/casa-moderna-en-ibiza.jpg" alt="Casa familiar" class="property-image">
+            <div class="property-details">
+                <h3 class="property-title">Hacienda del Valle</h3>
+                <div class="property-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Valle Oriente</span>
+                </div>
+                <div class="property-features">
+                    <span><i class="fas fa-bed"></i> 4 Recámaras</span>
+                    <span><i class="fas fa-bath"></i> 3 Baños</span>
+                    <span><i class="fas fa-ruler-combined"></i> 200m²</span>
+                </div>
+                <div class="property-price">$22,000/mes</div>
+            </div>
+        </div>
+
+        <div class="property-card">
+            <img src="https://i.pinimg.com/originals/af/e8/a1/afe8a1db0492aca41a6670aa469111a9.jpg" alt="Departamento" class="property-image">
+            <div class="property-details">
+                <h3 class="property-title">Torre Diamante</h3>
+                <div class="property-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Centro</span>
+                </div>
+                <div class="property-features">
+                    <span><i class="fas fa-bed"></i> 2 Recámaras</span>
+                    <span><i class="fas fa-bath"></i> 2 Baños</span>
+                    <span><i class="fas fa-ruler-combined"></i> 85m²</span>
+                </div>
+                <div class="property-price">$12,500/mes</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="container about-section">
+    <div class="about-image">
+        <img src="https://pixnio.com/free-images/2017/10/25/2017-10-25-14-48-25.jpg" alt="Acerca de RéntaFIN.mich">
+    </div>
+
+    <div class="about-content">
+        <h2>¿Quiénes Somos?</h2>
+        <p><strong>RéntaFIN.mich</strong> es la plataforma líder en renta de casas y departamentos, conectando a propietarios con inquilinos de manera segura y eficiente.</p>
+
+        <p>Nuestro propósito es simplificar el proceso de búsqueda y renta de propiedades, ofreciendo un servicio confiable, transparente y con la mejor experiencia de usuario.</p>
+
+        <div class="about-features">
+            <div class="about-feature">
+                <i class="fas fa-check-circle"></i>
+                <span>Propiedades verificadas y documentación legal en orden</span>
+            </div>
+            <div class="about-feature">
+                <i class="fas fa-check-circle"></i>
+                <span>Asesoría personalizada para encontrar tu hogar ideal</span>
+            </div>
+            <div class="about-feature">
+                <i class="fas fa-check-circle"></i>
+                <span>Proceso de renta simplificado con seguimiento en cada paso.</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

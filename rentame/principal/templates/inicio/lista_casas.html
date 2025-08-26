@@ -1,0 +1,163 @@
+{% extends 'inicio/encabezado.html' %}
+
+{% block contenido %}
+<div class="container text-center">
+    <h1 class="my-4">Casas Disponibles</h1>
+
+    <div class="casas-grid justify-content-center">
+        {% for casa in casas %}
+        <div class="casa-card text-center">
+            <img src="{{ casa.imagen_principal.url }}" alt="{{ casa.nombre }}">
+            <div class="casa-info">
+                <h3>{{ casa.nombre }}</h3>
+                <p class="ubicacion">📍 {{ casa.ubicacion }}</p>
+                <div class="caracteristicas justify-content-center">
+                    <span>👥 {{ casa.capacidad }} personas</span>
+                    <span>🛏️ {{ casa.habitaciones }} hab.</span>
+                    <span>🚿 {{ casa.banos }} baños</span>
+                </div>
+                <p class="precio">${{ casa.precio_noche }} / noche</p>
+                <div class="acciones justify-content-center">
+                    <a href="{% url 'casas:detalle_casa' casa.id %}" class="btn btn-primary">
+                        Ver Detalles
+                    </a>
+                    {% if user.is_superuser %}
+                    <a href="{% url 'casas:editar_casa' casa.id %}" class="btn btn-secondary">
+                        ✏️ Editar
+                    </a>
+                    <form action="{% url 'casas:eliminar_casa' casa.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que deseas eliminar esta casa?');">
+                            🗑️ Eliminar
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-5">
+            <p>No hay casas disponibles en este momento.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* Grid centrado */
+.casas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    justify-items: center;
+}
+
+/* Tarjetas */
+.casa-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+    max-width: 350px;
+}
+
+.casa-card:hover {
+    transform: translateY(-5px);
+}
+
+.casa-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Info */
+.casa-info {
+    padding: 20px;
+}
+
+.casa-info h3 {
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+
+.ubicacion {
+    color: #7F8C8D;
+    margin-bottom: 15px;
+}
+
+.caracteristicas {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #7F8C8D;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: bold;
+    color: #E67E22;
+    margin-bottom: 15px;
+}
+
+/* Acciones */
+.acciones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #2980B9;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #2471A3;
+}
+
+.btn-secondary {
+    background: #95A5A6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7F8C8D;
+}
+
+.btn-danger {
+    background: #E74C3C;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #C0392B;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .casas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .acciones {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+</style>
+{% endblock %}

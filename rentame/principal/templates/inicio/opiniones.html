@@ -1,0 +1,505 @@
+{% extends "inicio/encabezado.html" %}
+{% load static %}
+
+{% block titulo %}Opiniones - Réntame.mx{% endblock %}
+
+{% block contenido %}
+<style>
+    :root {
+        --color-primary: #2C3E50;
+        --color-secondary: #E67E22;
+        --color-accent: #2980B9;
+        --color-light: #F9F9F9;
+        --color-dark: #2C3E50;
+        --color-text: #555;
+        --shadow: 0 5px 15px rgba(0,0,0,0.08);
+        --transition: all 0.3s ease;
+    }
+
+    /* Estilos base */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--color-text);
+        line-height: 1.6;
+        background-color: var(--color-light);
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* Hero Section */
+    .testimonials-hero {
+        background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('{% static "inicio/images/testimonios-hero.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        margin-bottom: 50px;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .testimonials-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .testimonials-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Testimonials Section */
+    .testimonials-container {
+        padding: 50px 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        color: var(--color-dark);
+        position: relative;
+    }
+
+    .section-title:after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--color-secondary);
+        margin: 15px auto;
+        border-radius: 2px;
+    }
+
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+
+    .testimonial-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    .testimonial-card:before {
+        content: "";
+        font-family: Georgia, serif;
+        font-size: 5rem;
+        color: rgba(230, 126, 34, 0.2);
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        line-height: 1;
+    }
+
+    .testimonial-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .testimonial-text {
+        color: var(--color-text);
+        line-height: 1.8;
+        margin-bottom: 20px;
+        font-style: italic;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .author-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 3px solid var(--color-secondary);
+    }
+
+    .author-info h4 {
+        margin: 0;
+        color: var(--color-dark);
+        font-size: 1.1rem;
+    }
+
+    .author-info p {
+        margin: 5px 0 0;
+        color: #777;
+        font-size: 0.9rem;
+    }
+
+    /* Rating stars with pure CSS */
+    .rating {
+        display: flex;
+        margin: 15px 0;
+    }
+
+    .star {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 3px;
+        background-color: #ddd;
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .star.full {
+        background-color: #FFD700;
+    }
+
+    .star.half {
+        background: linear-gradient(90deg, #FFD700 50%, #ddd 50%);
+    }
+
+    /* Stats Section */
+    .stats-section {
+        background: var(--color-light);
+        padding: 60px 20px;
+        border-radius: 20px;
+        margin: 50px 0;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        text-align: center;
+    }
+
+    .stat-item {
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--color-secondary);
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        color: var(--color-dark);
+        font-size: 1.1rem;
+    }
+
+    /* Form Section */
+    .add-testimonial {
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        margin: 50px 0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--color-dark);
+        font-weight: 500;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: var(--transition);
+        font-family: inherit;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--color-secondary);
+        box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .btn-primary {
+        background: var(--color-secondary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-primary:hover {
+        background: #d35400;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(230, 126, 34, 0.4);
+    }
+
+    /* Custom radio rating stars */
+    .rating-input {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .rating-input input {
+        display: none;
+    }
+
+    .rating-input label {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        background-color: #ddd;
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        margin-right: 5px;
+        transition: var(--transition);
+    }
+
+    .rating-input input:checked ~ label,
+    .rating-input label:hover,
+    .rating-input label:hover ~ label {
+        background-color: #FFD700;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .testimonials-title {
+            font-size: 2.2rem;
+        }
+
+        .testimonials-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .add-testimonial {
+            padding: 30px 20px;
+        }
+
+        .testimonial-author {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .author-avatar {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .testimonials-title {
+            font-size: 1.8rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Estado de aprobación */
+    .pending-badge {
+        background-color: #ffc107;
+        color: #000;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        margin-left: 10px;
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="testimonials-hero">
+    <div class="container">
+        <h1 class="testimonials-title">Opiniones de nuestros clientes</h1>
+        <p class="testimonials-subtitle">Descubre las experiencias reales de quienes han encontrado su hogar ideal con Réntame.mx</p>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-container">
+    <div class="container">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+
+        <div class="testimonials-grid">
+            <!-- Opiniones de la base de datos -->
+            {% for opinion in opiniones %}
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <div class="rating">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= opinion.calificacion %}
+                                <span class="star full"></span>
+                            {% else %}
+                                <span class="star"></span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="testimonial-text">{{ opinion.comentario }}</p>
+                    <div class="testimonial-author">
+                        <img src="https://ui-avatars.com/api/?name={{ opinion.usuario.username }}&background=random&size=60" alt="{{ opinion.usuario.username }}" class="author-avatar">
+                        <div class="author-info">
+                            <h4>{{ opinion.usuario.username }}</h4>
+                            <p>
+                                {% if opinion.casa %}
+                                    {{ opinion.casa.nombre }}
+                                {% else %}
+                                    Cliente satisfecho
+                                {% endif %}
+                                {% if not opinion.aprobada %}
+                                    <span class="pending-badge">En revisión</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No hay opiniones disponibles todavía.</p>
+                <p>¡Sé el primero en compartir tu experiencia!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ promedio_calificacion|default:"4.9" }}</div>
+                <div class="stat-label">Calificación promedio</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ total_opiniones|default:"1250" }}+</div>
+                <div class="stat-label">Opiniones recibidas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ porcentaje_aprobadas|default:"98" }}%</div>
+                <div class="stat-label">Opiniones aprobadas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ opiniones_ultimo_mes|default:"50" }}+</div>
+                <div class="stat-label">Este mes</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Testimonial Section -->
+<section class="container add-testimonial">
+    <h2 class="section-title">Comparte tu experiencia</h2>
+    <p class="text-center" style="margin-bottom: 40px;">¿Has rentado con nosotros? Nos encantaría conocer tu opinión</p>
+
+    <!-- Cambia esta sección del formulario -->
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'casas:crear_opinion' 0 %}" id="opinionForm">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="casa">Selecciona la casa</label>
+        <select class="form-control" id="casa" name="casa" required onchange="updateFormAction(this.value)">
+            <option value="">-- Selecciona una casa --</option>
+            {% for casa in casas_usuario %}
+            <option value="{{ casa.id }}">{{ casa.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Calificación</label>
+        <div class="rating-input">
+            <input type="radio" id="star5" name="calificacion" value="5" required>
+            <label for="star5"></label>
+            <input type="radio" id="star4" name="calificacion" value="4">
+            <label for="star4"></label>
+            <input type="radio" id="star3" name="calificacion" value="3">
+            <label for="star3"></label>
+            <input type="radio" id="star2" name="calificacion" value="2">
+            <label for="star2"></label>
+            <input type="radio" id="star1" name="calificacion" value="1">
+            <label for="star1"></label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="comentario">Tu experiencia</label>
+        <textarea class="form-control" id="comentario" name="comentario" placeholder="Comparte tu experiencia rentando con Réntame.mx" rows="5" required></textarea>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn-primary">Enviar opinión</button>
+    </div>
+</form>
+
+<script>
+function updateFormAction(casaId) {
+    if (casaId) {
+        const form = document.getElementById('opinionForm');
+        form.action = "{% url 'casas:crear_opinion' 0 %}".replace('0', casaId);
+    }
+}
+</script>
+{% else %}
+<!-- ... resto del código ... -->
+    <div class="text-center">
+        <p>Para compartir tu opinión, necesitas <a href="{% url 'login' %}">iniciar sesión</a>.</p>
+        <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate aquí</a>.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

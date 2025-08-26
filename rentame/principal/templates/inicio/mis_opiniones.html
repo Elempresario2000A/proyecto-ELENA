@@ -1,0 +1,51 @@
+{% extends 'inicio/encabezado.html' %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h1 class="mb-4">Mis Opiniones</h1>
+    
+    {% if opiniones %}
+        <div class="row">
+            {% for opinion in opiniones %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{ opinion.casa.nombre }}</h5>
+                        <div>
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= opinion.calificacion %}
+                                    <span class="text-warning">★</span>
+                                {% else %}
+                                    <span class="text-secondary">☆</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ opinion.comentario }}</p>
+                        <p class="text-muted small">
+                            Publicado el {{ opinion.fecha_creacion|date:"d M Y" }}
+                            {% if not opinion.aprobado %}
+                                <span class="badge bg-warning text-dark ms-2">En revisión</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'casas:editar_opinion' opinion.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a href="{% url 'casas:eliminar_opinion' opinion.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                            <a href="{% url 'casas:detalle_casa' opinion.casa.id %}" class="btn btn-sm btn-outline-secondary">Ver Casa</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            <p>No has publicado ninguna opinión todavía.</p>
+            <a href="{% url 'casas:lista_casas' %}" class="btn btn-primary">Ver Casas Disponibles</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

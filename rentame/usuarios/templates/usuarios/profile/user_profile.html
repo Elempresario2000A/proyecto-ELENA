@@ -1,0 +1,103 @@
+{% extends 'inicio/encabezado.html' %}
+
+{% block contenido %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h2>Mi Perfil</h2>
+    </div>
+
+    <div class="profile-form">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label>Apellido</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono</label>
+                {{ form.phone }}
+            </div>
+
+            <div class="form-group">
+                <label>Dirección</label>
+                {{ form.address }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'usuarios:user_dashboard' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<style>
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background: #2c3e50;
+    color: white;
+}
+
+.btn-secondary {
+    background: #7f8c8d;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+</style>
+{% endblock %}

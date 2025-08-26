@@ -1,0 +1,128 @@
+{% extends 'inicio/encabezado.html' %}
+
+{% block contenido %}
+<div class="container py-5 text-center">
+    <h1 class="mb-5">✨ Promociones Activas</h1>
+
+    {% if user.is_authenticated and user.is_superuser %}
+    <div class="my-4">
+        <a href="{% url 'casas:crear_promocion' %}" class="btn btn-primary btn-lg btn-add-promo">➕ Agregar Promoción</a>
+    </div>
+    {% endif %}
+
+    <div class="row justify-content-center mt-4 promo-grid">
+        {% for promo in promociones %}
+        <div class="col-md-4 mb-4">
+            <div class="card promo-card shadow-sm">
+                {% if promo.imagen %}
+                <img src="{{ promo.imagen.url }}" class="card-img-top promo-img" alt="{{ promo.titulo }}">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ promo.titulo }}</h5>
+                    <p class="card-text">{{ promo.descripcion }}</p>
+                    <p class="casa-info"><strong>Casa:</strong> {{ promo.casa.nombre }}</p>
+                    <small class="text-muted">{{ promo.fecha_inicio }} - {{ promo.fecha_fin }}</small>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="mt-4">No hay promociones disponibles</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+}
+
+/* Título principal */
+h1 {
+    font-size: 2.5rem;
+    color: #333333;
+    font-weight: 700;
+}
+
+/* Botón agregar promoción */
+.btn-add-promo {
+    background: linear-gradient(135deg, #667eea 0%, #225add 100%);
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-add-promo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    color: #fff;
+}
+
+/* Grid de promociones */
+.promo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* Tarjetas */
+.promo-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promo-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Imagen de la promoción */
+.promo-img {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.promo-card:hover .promo-img {
+    transform: scale(1.1);
+}
+
+/* Información dentro de la tarjeta */
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    color: #555555;
+    margin-bottom: 10px;
+}
+
+.casa-info {
+    color: #667eea;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Texto de fechas */
+small {
+    color: #999999;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .promo-card {
+        margin: 0 auto;
+    }
+}
+</style>
+{% endblock %}

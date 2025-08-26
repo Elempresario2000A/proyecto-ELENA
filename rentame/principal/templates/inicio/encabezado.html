@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentaFIN.mich</title>
+    <style>
+        /* ====== RESET BÁSICO ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f9f9f9;
+            color: #333;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* ====== HEADER ====== */
+        .header {
+            background: #222;
+            color: #fff;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .logo span { color: #ff9800; }
+
+        /* ====== NAV ====== */
+        .navigation {
+            display: flex;
+        }
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-item a {
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .nav-item a:hover {
+            background: #ff9800;
+            color: #222;
+        }
+
+        /* ====== USER MENU ====== */
+        .user-menu {
+            position: relative;
+        }
+        .user-welcome {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .user-role.admin {
+            color: #ff9800;
+            font-size: 0.9rem;
+        }
+        .dropdown {
+            display: inline-block;
+            position: relative;
+        }
+        .dropbtn {
+            cursor: pointer;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        .dropbtn:hover {
+            background: #ff9800;
+            color: #222;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 0;
+            background: #fff;
+            border-radius: 5px;
+            min-width: 180px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+        .dropdown-content li {
+            list-style: none;
+        }
+        .dropdown-content li a {
+            display: block;
+            padding: 10px;
+            color: #222;
+        }
+        .dropdown-content li a:hover {
+            background: #f0f0f0;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* ====== NAV TOGGLE (MÓVIL) ====== */
+        .nav-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .navigation {
+                display: none;
+                flex-direction: column;
+                background: #333;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+            }
+            .navigation.active {
+                display: flex;
+            }
+            .nav-list {
+                flex-direction: column;
+                gap: 0;
+            }
+            .nav-item a {
+                padding: 12px;
+                border-bottom: 1px solid #444;
+            }
+            .nav-toggle {
+                display: block;
+            }
+        }
+
+        /* ====== ADMIN BAR ====== */
+        .admin-menu {
+            background: #ff9800;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        .admin-menu ul {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+            justify-content: center;
+        }
+        .admin-menu a {
+            color: #222;
+            font-weight: bold;
+        }
+
+        /* ====== CONTENIDO ====== */
+        .main {
+            padding: 30px 20px;
+            min-height: 70vh;
+        }
+
+        /* ====== ALERTAS ====== */
+        .alert {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
+        .alert-info { background: #cce5ff; color: #004085; }
+
+        /* ====== FOOTER ====== */
+        footer {
+            background: #222;
+            color: #ccc;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        footer .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        footer h4 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        footer ul {
+            list-style: none;
+        }
+        footer ul li a {
+            color: #ccc;
+            transition: 0.3s;
+        }
+        footer ul li a:hover {
+            color: #ff9800;
+        }
+        .footer-bottom {
+            margin-top: 20px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            font-size: 0.9rem;
+        }
+        .social-links a {
+            margin: 0 8px;
+            color: #ccc;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        .social-links a:hover {
+            color: #ff9800;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <a class="navbar-brand logo" href="{% url 'casas:Principal' %}">
+                    RéntaFIN<span>.mich</span>
+                </a>
+
+                <button class="nav-toggle" id="navToggle">☰</button>
+
+                <nav class="navigation" id="navigation">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="{% url 'casas:Principal' %}">Inicio</a></li>
+                        <li class="nav-item"><a href="{% url 'casas:lista_casas' %}">Casas</a></li>
+                        <li class="nav-item">
+    <a class="menu-main-item" href="{% url 'casas:lista_promociones' %}">Promociones</a>
+</li>
+                        <li class="nav-item"><a href="{% url 'casas:Contacto' %}">Contacto</a></li>
+                        
+                        {% if user.is_authenticated %}
+                        <li class="nav-item user-menu">
+                            <span class="user-welcome">¡Hola, {{ user.username }}!</span>
+                            <span class="user-role {% if user.is_superuser or user.is_staff %}admin{% endif %}">
+                                {% if user.is_superuser or user.is_staff %}Admin{% else %}Usuario{% endif %}
+                            </span>
+                            <div class="dropdown">
+                                <a href="#" class="dropbtn">Mi Cuenta <span>▼</span></a>
+                                <ul class="dropdown-content">
+                                    {% if user.is_superuser or user.is_staff %}
+                                    <li><a href="{% url 'casas:crear_casa' %}">➕ Nueva Casa</a></li>
+                                    {% endif %}
+                                    <li><a href="{% url 'usuarios:user_profile' %}">👤 Mi Perfil</a></li>
+                                    <li><a href="{% url 'usuarios:logout' %}">🚪 Cerrar Sesión</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="nav-item"><a class="login-btn" href="{% url 'usuarios:login' %}">Iniciar Sesión</a></li>
+                        <li class="nav-item"><a href="{% url 'usuarios:register' %}">Registrarse</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- ADMIN BAR -->
+    {% if user.is_authenticated and user.is_superuser %}
+    <div class="admin-menu">
+        <div class="container">
+            <ul>
+                <li><a href="/admin/">⚙️ Panel Admin Django</a></li>
+                <li><a href="{% url 'casas:crear_casa' %}">➕ Nueva Casa</a></li>
+                <li><a href="{% url 'casas:lista_casas' %}">📋 Gestionar Casas</a></li>
+               
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- CONTENIDO -->
+    <div class="main container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block contenido %}{% endblock %}
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <h4>RentaFIN.mich</h4>
+                <p>Tu mejor opción en alquiler de casas vacacionales en Michoacán.</p>
+            </div>
+            <div>
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="{% url 'casas:Principal' %}">Inicio</a></li>
+                    <li><a href="{% url 'casas:lista_casas' %}">Casas</a></li>
+                    <li><a href="{% url 'casas:Contacto' %}">Contacto</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Síguenos</h4>
+                <div class="social-links">
+                    <a href="#"><i>🌐</i></a>
+                    <a href="#"><i>📘</i></a>
+                    <a href="#"><i>🐦</i></a>
+                    <a href="#"><i>📸</i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © {{ year|default:"2025" }} RentaFIN.mich | Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        document.getElementById('navToggle').addEventListener('click', function() {
+            document.getElementById('navigation').classList.toggle('active');
+        });
+        document.addEventListener('click', function(event) {
+            const navigation = document.getElementById('navigation');
+            const navToggle = document.getElementById('navToggle');
+            if (navigation.classList.contains('active') &&
+                !navigation.contains(event.target) &&
+                !navToggle.contains(event.target)) {
+                navigation.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

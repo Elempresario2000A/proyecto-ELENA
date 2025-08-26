@@ -1,0 +1,92 @@
+{% extends 'inicio/encabezado.html' %}
+
+{% block contenido %}
+<div class="container py-5">
+    <div class="form-wrapper shadow-lg p-5 rounded-4 mx-auto">
+        <h2 class="text-center mb-4">➕ Agregar Nueva Promoción</h2>
+        <form method="POST" enctype="multipart/form-data" class="promo-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-submit">💾 Guardar Promoción</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+/* Centrar y dar fondo al formulario */
+.form-wrapper {
+    max-width: 600px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.form-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* Estilo general de títulos */
+.form-wrapper h2 {
+    color: #333333;
+    font-weight: 700;
+}
+
+/* Estilo de los campos del formulario */
+.promo-form p {
+    margin-bottom: 20px;
+}
+
+.promo-form label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+    color: #555555;
+}
+
+.promo-form input[type="text"],
+.promo-form input[type="date"],
+.promo-form textarea,
+.promo-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.promo-form input:focus,
+.promo-form textarea:focus,
+.promo-form select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 5px rgba(102,126,234,0.5);
+}
+
+/* Botón de guardar */
+.btn-submit {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .form-wrapper {
+        padding: 30px 20px;
+    }
+}
+</style>
+{% endblock %}

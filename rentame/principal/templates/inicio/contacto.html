@@ -1,0 +1,623 @@
+{% extends "inicio/encabezado.html" %}
+{% load static %}
+
+{% block titulo %}Contacto - Réntame.mx{% endblock %}
+
+{% block contenido %}
+<style>
+    :root {
+        --color-primary: #2C3E50;
+        --color-secondary: #E67E22;
+        --color-accent: #2980B9;
+        --color-light: #F9F9F9;
+        --color-dark: #2C3E50;
+        --color-text: #555;
+        --shadow: 0 5px 15px rgba(0,0,0,0.08);
+        --transition: all 0.3s ease;
+    }
+
+    /* Estilos base */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--color-text);
+        line-height: 1.6;
+        background-color: var(--color-light);
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    /* Hero Section */
+    .contact-hero {
+        background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('{% static "inicio/images/contacto-hero.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        margin-bottom: 50px;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .contact-title {
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .contact-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Contact Section */
+    .contact-container {
+        padding: 50px 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        color: var(--color-dark);
+        position: relative;
+    }
+
+    .section-title:after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--color-secondary);
+        margin: 15px auto;
+        border-radius: 2px;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        margin-bottom: 60px;
+    }
+
+    .contact-info {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        height: fit-content;
+    }
+
+    .contact-info h3 {
+        color: var(--color-dark);
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+    }
+
+    .contact-detail {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 25px;
+    }
+
+    .contact-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--color-secondary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    /* CSS-only icons */
+    .icon-map::before {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 24px;
+        background: white;
+        clip-path: path('M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z');
+    }
+
+    .icon-phone::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: white;
+        clip-path: path('M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z');
+    }
+
+    .icon-envelope::before {
+        content: "";
+        display: block;
+        width: 22px;
+        height: 16px;
+        background: white;
+        clip-path: path('M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z');
+    }
+
+    .icon-clock::before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: white;
+        clip-path: path('M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z');
+    }
+
+    .contact-text h4 {
+        margin: 0 0 5px 0;
+        color: var(--color-dark);
+        font-size: 1.1rem;
+    }
+
+    .contact-text p {
+        margin: 0;
+        color: var(--color-text);
+        line-height: 1.6;
+    }
+
+    .contact-text a {
+        color: var(--color-text);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .contact-text a:hover {
+        color: var(--color-secondary);
+    }
+
+    /* Form Styles */
+    .contact-form {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--color-dark);
+        font-weight: 500;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: var(--transition);
+        font-family: inherit;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--color-secondary);
+        box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+        transform: translateY(-2px);
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .btn-primary {
+        background: var(--color-secondary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+        width: 100%;
+        font-size: 1.1rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        background: #d35400;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(230, 126, 34, 0.4);
+    }
+
+    /* Ripple effect */
+    .btn-primary:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%);
+        transform-origin: 50% 50%;
+    }
+
+    .btn-primary:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0);
+            opacity: 0.5;
+        }
+        20% {
+            transform: scale(10, 10);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(30, 30);
+            opacity: 0;
+        }
+    }
+
+    /* Map Section */
+    .map-section {
+        margin: 50px 0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    .map-container {
+        width: 100%;
+        height: 400px;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text);
+        position: relative;
+    }
+
+    .map-placeholder {
+        text-align: center;
+    }
+
+    .map-icon {
+        width: 60px;
+        height: 60px;
+        background: #ccc;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        position: relative;
+    }
+
+    .map-icon::before {
+        content: "";
+        display: block;
+        width: 30px;
+        height: 30px;
+        background: white;
+        clip-path: path('M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z');
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        background: var(--color-light);
+        padding: 60px 20px;
+        border-radius: 20px;
+        margin: 50px 0;
+    }
+
+    .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .faq-item {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+    }
+
+    .faq-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .faq-question {
+        color: var(--color-dark);
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .faq-answer {
+        color: var(--color-text);
+        line-height: 1.6;
+    }
+
+    .office-hours {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        margin-top: 40px;
+    }
+
+    .office-hours h3 {
+        color: var(--color-dark);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .hours-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .hours-table tr {
+        border-bottom: 1px solid #eee;
+    }
+
+    .hours-table tr:last-child {
+        border-bottom: none;
+    }
+
+    .hours-table td {
+        padding: 12px 8px;
+    }
+
+    .hours-table td:first-child {
+        font-weight: 500;
+        color: var(--color-dark);
+    }
+
+    .hours-table td:last-child {
+        text-align: right;
+        color: var(--color-text);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .contact-title {
+            font-size: 2.2rem;
+        }
+
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-detail {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .contact-icon {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+
+        .faq-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .map-container {
+            height: 300px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .contact-title {
+            font-size: 1.8rem;
+        }
+
+        .contact-info, .contact-form {
+            padding: 20px;
+        }
+
+        .office-hours {
+            padding: 20px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="contact-hero">
+    <div class="container">
+        <h1 class="contact-title">Contáctanos</h1>
+        <p class="contact-subtitle">Estamos aquí para ayudarte a encontrar tu hogar ideal. ¡Escríbenos y te responderemos a la brevedad!</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-container">
+    <div class="container">
+        <h2 class="section-title">¿En qué podemos ayudarte?</h2>
+
+        <div class="contact-grid">
+            <!-- Información de contacto -->
+            <div class="contact-info">
+                <h3>Información de contacto</h3>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <div class="icon-map"></div>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Dirección</h4>
+                        <p>Av. Insurgentes Sur 123,<br>Col. Condesa, Ciudad de México<br>CP 06140</p>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <div class="icon-phone"></div>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Teléfono</h4>
+                        <p><a href="tel:+525512345678">+52 55 1234 5678</a></p>
+                        <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <div class="icon-envelope"></div>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email</h4>
+                        <p><a href="mailto:info@rentame.mx">info@rentame.mx</a></p>
+                        <p><a href="mailto:soporte@rentame.mx">soporte@rentame.mx</a></p>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <div class="icon-clock"></div>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Horario de atención</h4>
+                        <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+                        <p>Sábados: 10:00 AM - 2:00 PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de contacto -->
+            <div class="contact-form">
+                <h3>Envíanos un mensaje</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Nombre completo *</label>
+                        <input type="text" class="form-control" id="name" placeholder="Tu nombre completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo electrónico *</label>
+                        <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="+52 55 1234 5678">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Asunto *</label>
+                        <select class="form-control" id="subject" required>
+                            <option value="">Selecciona una opción</option>
+                            <option value="renta">Quiero rentar una propiedad</option>
+                            <option value="publicar">Quiero publicar mi propiedad</option>
+                            <option value="soporte">Soporte técnico</option>
+                            <option value="general">Consulta general</option>
+                            <option value="otros">Otro asunto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Mensaje *</label>
+                        <textarea class="form-control" id="message" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Enviar mensaje</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="container map-section">
+    <h2 class="section-title">Nuestra ubicación</h2>
+    <div class="map-container">
+        <div class="map-placeholder">
+            <div class="map-icon"></div>
+            <p>Mapa interactivo de nuestra ubicación</p>
+            <p><small>Integración con Google Maps o similar</small></p>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="container faq-section">
+    <h2 class="section-title">Preguntas frecuentes</h2>
+
+    <div class="faq-grid">
+        <div class="faq-item">
+            <h3 class="faq-question">¿Cómo puedo rentar una propiedad?</h3>
+            <p class="faq-answer">Para rentar una propiedad, simplemente explora nuestro catálogo, agenda una visita y nuestro equipo te guiará through el proceso de documentación y firma de contrato.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question">¿Qué documentación necesito para rentar?</h3>
+            <p class="faq-answer">Generalmente solicitamos identificación oficial, comprobante de ingresos y referencias personales. Los requisitos específicos varían según la propiedad.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question">¿Cómo publico mi propiedad en Réntame.mx?</h3>
+            <p class="faq-answer">Contáctanos a través del formulario o por teléfono y uno de nuestros asesores te guiará through el proceso de publicación y gestión de tu propiedad.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question">¿Qué garantías ofrece Réntame.mx?</h3>
+            <p class="faq-answer">Todas nuestras propiedades están verificadas, ofrecemos contratos legales y un servicio de mediación en caso de incidencias durante la renta.</p>
+        </div>
+    </div>
+
+    <div class="office-hours">
+        <h3>Horarios de atención</h3>
+        <table class="hours-table">
+            <tr>
+                <td>Lunes - Viernes</td>
+                <td>9:00 AM - 6:00 PM</td>
+            </tr>
+            <tr>
+                <td>Sábados</td>
+                <td>10:00 AM - 2:00 PM</td>
+            </tr>
+            <tr>
+                <td>Domingos</td>
+                <td>Cerrado</td>
+            </tr>
+        </table>
+    </div>
+</section>
+{% endblock %}
